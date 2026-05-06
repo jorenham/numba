@@ -290,18 +290,16 @@ with ``pip`` or ``conda`` and then run from the root of the Numba repository::
 
     flake8 numba
 
-Numba has started the process of using `type hints <https://www.python.org/dev/peps/pep-0484/>`_ in its code base. This
-will be a gradual process of extending the number of files that use type hints, as well as going from voluntary to
-mandatory type hints for new features. `Mypy <http://mypy-lang.org/>`_ is used for automated static checking.
+Numba is gradually adding `type hints <https://www.python.org/dev/peps/pep-0484/>`_ to its code base.
+`Pyrefly <https://pyrefly.org/>`_ is used for static type checking on the files listed in ``pyrefly.toml``::
 
-At the moment, only certain files are checked by mypy. The list can be found in ``mypy.ini``. When making changes to
-those files, it is necessary to add the required type hints such that mypy tests will pass. Only in exceptional
-circumstances should ``type: ignore`` comments be used.
+    pyrefly check
 
-If you are contributing a new feature, we encourage you to use type hints, even if the file is not currently in the
-checklist. If you want to contribute type hints to enable a new file to be in the checklist, please add the file to the
-``files`` variable in ``mypy.ini``, and decide what level of compliance you are targeting. Level 3 is basic static
-checks, while levels 2 and 1 represent stricter checking. The levels are described in details in ``mypy.ini``.
+Mypy's `stubtest <https://mypy.readthedocs.io/en/stable/stubtest.html>`_ tool is used to verify that Numba's ``.pyi``
+type stubs are consistent with the runtime implementation
+(dependencies in ``maint/stubtest/requirements_stubtest.txt``)::
+
+    python maint/stubtest.py
 
 There is potential for confusion between the Numba module ``typing`` and Python built-in module ``typing`` used for type
 hints, as well as between Numba types---such as ``Dict`` or ``Literal``---and ``typing`` types of the same name.
